@@ -34,6 +34,12 @@
               "properties": {
                 "idCoordinador": {
                   "example": "any"
+                },
+                "nombre": {
+                  "example": "any"
+                },
+                "apellido": {
+                  "example": "any"
                 }
               }
             }
@@ -73,6 +79,18 @@
                 },
                 "idCamper": {
                   "example": "any"
+                },
+                "nombre": {
+                  "example": "any"
+                },
+                "apellido": {
+                  "example": "any"
+                },
+                "acudiente": {
+                  "example": "any"
+                },
+                "telefono": {
+                  "example": "any"
                 }
               }
             }
@@ -85,12 +103,18 @@
         }
       }
     },
-    "/coordinador/{idCoordinador,:contrasena}/crearTrainer": {
+    "/coordinador/{idCoordinador}/{contrasena}/crearTrainer": {
       "post": {
         "description": "",
         "parameters": [
           {
-            "name": "idCoordinador,:contrasena",
+            "name": "idCoordinador",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
             "in": "path",
             "required": true,
             "type": "string"
@@ -106,6 +130,15 @@
                 },
                 "idTrainers": {
                   "example": "any"
+                },
+                "nombre": {
+                  "example": "any"
+                },
+                "apellido": {
+                  "example": "any"
+                },
+                "telefono": {
+                  "example": "any"
                 }
               }
             }
@@ -118,12 +151,18 @@
         }
       }
     },
-    "/coordinador/{idCoordinador,:contrasena}/crearHorario": {
+    "/coordinador/{idCoordinador}/{contrasena}/crearHorario": {
       "post": {
         "description": "",
         "parameters": [
           {
-            "name": "idCoordinador,:contrasena",
+            "name": "idCoordinador",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
             "in": "path",
             "required": true,
             "type": "string"
@@ -136,35 +175,11 @@
               "properties": {
                 "idHorario": {
                   "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/coordinador/{idCoordinador,:contrasena}/crearRuta": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "idCoordinador,:contrasena",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "idRuta": {
+                },
+                "nombre": {
+                  "example": "any"
+                },
+                "horas": {
                   "example": "any"
                 }
               }
@@ -178,12 +193,60 @@
         }
       }
     },
-    "/coordinador/{idCoordinador,:contrasena}/crearGrupos": {
+    "/coordinador/{idCoordinador}/{contrasena}/crearRuta": {
       "post": {
         "description": "",
         "parameters": [
           {
-            "name": "idCoordinador,:contrasena",
+            "name": "idCoordinador",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRuta": {
+                  "example": "any"
+                },
+                "nombre": {
+                  "example": "any"
+                },
+                "intro": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/coordinador/{idCoordinador}/{contrasena}/crearGrupos": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCoordinador",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
             "in": "path",
             "required": true,
             "type": "string"
@@ -195,6 +258,12 @@
               "type": "object",
               "properties": {
                 "idGrupo": {
+                  "example": "any"
+                },
+                "nombreGrupos": {
+                  "example": "any"
+                },
+                "campers": {
                   "example": "any"
                 }
               }
@@ -286,12 +355,18 @@
         }
       }
     },
-    "/campers/{idCamper,:contrasena}/verMiInfo": {
+    "/campers/{idCamper}/{contrasena}/verMiInfo": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "idCamper,:contrasena",
+            "name": "idCamper",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
             "in": "path",
             "required": true,
             "type": "string"
@@ -322,12 +397,18 @@
         }
       }
     },
-    "/trainers/{idTrainer,:contrasena}/verMiInfo": {
+    "/trainers/{idTrainer}/{contrasena}/verMiInfo": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "idTrainer,:contrasena",
+            "name": "idTrainer",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
             "in": "path",
             "required": true,
             "type": "string"
@@ -340,12 +421,18 @@
         }
       }
     },
-    "/coordinador/{idCoordinador,:contrasena}/verMiInfo": {
+    "/coordinador/{idCoordinador}/{contrasena}/verMiInfo": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "idCoordinador,:contrasena",
+            "name": "idCoordinador",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
             "in": "path",
             "required": true,
             "type": "string"

@@ -10,12 +10,19 @@ dotenv.config();// Cargar las variables de entorno del archivo .env
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################
 import { MongoClient } from "mongodb"// Requerir mongodb
-import swaggerUI from 'swagger-ui-express';
-import swaggerDocumentation from './swagger.json' assert {type:'json'};
-app.use('/doc', swaggerUI,serve, swaggerUI.setup(swaggerDocumentation));
+
+
+
 // Llamar variables entorno
 const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
+import swaggerUI from 'swagger-ui-express';
+import fs from 'fs';
+
+const swaggerDocumentation = JSON.parse(fs.readFileSync('./swagger.json', 'utf-8'));
+
+app.use('/doc',swaggerUI.serve, swaggerUI.setup(swaggerDocumentation))
+ 
 // Funcion para la conexion de la base de datos
 async function conectar(coleccion) {
     try {
@@ -44,7 +51,7 @@ async function crearColecciones() {
 
     await db.createCollection("grupos")
 }
-// Funcion para desconectar mongo db
+// Funcion para desconectar mongo db 
 async function desconectarDb() {
     await client.close()
 }
@@ -73,6 +80,7 @@ app.get('/crearColecciones', async (req, res) => {
 
 app.post('/crearCoordinador', async (req, res) => {
     async function crearCoordinador() {
+        const {nombre, apellido}= req.body;
         try {
             let { collection } = await conectar("coordinador")
             let uCoordinador = await collection.find().toArray()
@@ -98,6 +106,7 @@ app.post('/crearCoordinador', async (req, res) => {
 // Endpoint asincrono para crear campers con su informacion atravez de un metodo post con la informacion del camper en archivo json
 app.post('/coordinador/:idCoordinador/:contrasena/crearEstudiante', async (req, res) => {
     async function crearEstudiante() {
+        const{nombre, apellido, acudiente, telefono}= req.body
         try {
             let { collection } = await conectar("coordinador");
             let id = req.params.idCoordinador;
@@ -139,8 +148,9 @@ app.post('/coordinador/:idCoordinador/:contrasena/crearEstudiante', async (req, 
 
 /////////////TRainers Crear
 
-app.post('/coordinador/:idCoordinador,:contrasena/crearTrainer', async (req, res) => {
+app.post('/coordinador/:idCoordinador/:contrasena/crearTrainer', async (req, res) => {
     async function crearTrainer() {
+        const {nombre,apellido, telefono}=req.body;
         try {
             let { collection } = await conectar("coordinador");
             let id = req.params.idCoordinador;
@@ -178,15 +188,16 @@ app.post('/coordinador/:idCoordinador,:contrasena/crearTrainer', async (req, res
     await crearTrainer()
 })
 
-//  curl -X POST http://localhost:6969/coordinador/0,xd/crearTrainer   -H "Content-Type: application/json"   -d '{"contrasena":"2","nombre":"Pedro","apellido":"Gomez","telefono":"3164372414","idHorario":1,"idGrupos":2}'
+//  curl -X POST http://localhost:6969/coordinador/0/xd/crearTrainer   -H "Content-Type: application/json"   -d '{"contrasena":"2","nombre":"Pedro","apellido":"Gomez","telefono":"3164372414","idHorario":1,"idGrupos":2}'
 
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################
 // crear Horario 
 
-app.post('/coordinador/:idCoordinador,:contrasena/crearHorario', async (req, res) => {
+app.post('/coordinador/:idCoordinador/:contrasena/crearHorario', async (req, res) => {
     async function crearHorario() {
-        try {
+        const {nombre, horas}=req.body;
+                try {
             let { collection } = await conectar("coordinador");
             let id = req.params.idCoordinador;
             console.log(id);
@@ -220,10 +231,10 @@ app.post('/coordinador/:idCoordinador,:contrasena/crearHorario', async (req, res
     await crearHorario()
 })
 
-//  curl -X POST http://localhost:6969/coordinador/0,xd/crearHorario   -H "Content-Type: application/json"   -d '{"nombre":"jornada1","horas":"6am a 10am"}'
-//  curl -X POST http://localhost:6969/coordinador/0,xd/crearHorario   -H "Content-Type: application/json"   -d '{"nombre":"jornada2","horas":"10am a 2pm"}'
-//  curl -X POST http://localhost:6969/coordinador/0,xd/crearHorario   -H "Content-Type: application/json"   -d '{"nombre":"jornada3","horas":"2pm a 6pm"}'
-//  curl -X POST http://localhost:6969/coordinador/0,xd/crearHorario   -H "Content-Type: application/json"   -d '{"nombre":"jornada4","horas":"6pm a 10pm"}'
+//  curl -X POST http://localhost:6969/coordinador/0/xd/crearHorario   -H "Content-Type: application/json"   -d '{"nombre":"jornada1","horas":"6am a 10am"}'
+//  curl -X POST http://localhost:6969/coordinador/0/xd/crearHorario   -H "Content-Type: application/json"   -d '{"nombre":"jornada2","horas":"10am a 2pm"}'
+//  curl -X POST http://localhost:6969/coordinador/0/xd/crearHorario   -H "Content-Type: application/json"   -d '{"nombre":"jornada3","horas":"2pm a 6pm"}'
+//  curl -X POST http://localhost:6969/coordinador/0/xd/crearHorario   -H "Content-Type: application/json"   -d '{"nombre":"jornada4","horas":"6pm a 10pm"}'
 
 
 // ############################################################################################################################################################################################################################
@@ -232,8 +243,9 @@ app.post('/coordinador/:idCoordinador,:contrasena/crearHorario', async (req, res
 
 // crear rutas 
 
-app.post('/coordinador/:idCoordinador,:contrasena/crearRuta', async (req, res) => {
+app.post('/coordinador/:idCoordinador/:contrasena/crearRuta', async (req, res) => {
     async function crearRuta() {
+        const {nombre, intro}=req.body;
         try {
             let { collection } = await conectar("coordinador");
             let id = req.params.idCoordinador;
@@ -269,17 +281,18 @@ app.post('/coordinador/:idCoordinador,:contrasena/crearRuta', async (req, res) =
 })
 
 
-//  curl -X POST http://localhost:6969/coordinador/0,xd/crearRuta   -H "Content-Type: application/json"   -d '{"nombreRuta":"Nodejs","intro":"","python":"","html/css":"","scrum":"","git":"","Javascript":"","introBBD":"","mongoDB":"","MySQL":"","Express":""}'
-//  curl -X POST http://localhost:6969/coordinador/0,xd/crearRuta   -H "Content-Type: application/json"   -d '{"nombreRuta":"NetCore","intro":"","python":"","html/css":"","scrum":"","git":"","Javascript":"","introBBD":"","C##":"","postgreSQL":"","NetCore":""}'
-//  curl -X POST http://localhost:6969/coordinador/0,xd/crearRuta   -H "Content-Type: application/json"   -d '{"nombreRuta":"Java","intro":"","python":"","html/css":"","scrum":"","git":"","Javascript":"","introBBD":"","mongoDB":"","postgreSQL":"","SpringBoot":""}'
+//  curl -X POST http://localhost:6969/coordinador/0/xd/crearRuta   -H "Content-Type: application/json"   -d '{"nombreRuta":"Nodejs","intro":"","python":"","html/css":"","scrum":"","git":"","Javascript":"","introBBD":"","mongoDB":"","MySQL":"","Express":""}'
+//  curl -X POST http://localhost:6969/coordinador/0/xd/crearRuta   -H "Content-Type: application/json"   -d '{"nombreRuta":"NetCore","intro":"","python":"","html/css":"","scrum":"","git":"","Javascript":"","introBBD":"","C##":"","postgreSQL":"","NetCore":""}'
+//  curl -X POST http://localhost:6969/coordinador/0/xd/crearRuta   -H "Content-Type: application/json"   -d '{"nombreRuta":"Java","intro":"","python":"","html/css":"","scrum":"","git":"","Javascript":"","introBBD":"","mongoDB":"","postgreSQL":"","SpringBoot":""}'
 
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################
 
 // crear salones
 
-app.post('/coordinador/:idCoordinador,:contrasena/crearGrupos', async (req, res) => {
+app.post('/coordinador/:idCoordinador/:contrasena/crearGrupos', async (req, res) => {
     async function crearGrupo() {
+        const {nombreGrupos,campers}=req.body;
         try {
             let contraseña = String(req.params.contrasena)
             console.log(contraseña);
@@ -314,7 +327,7 @@ app.post('/coordinador/:idCoordinador,:contrasena/crearGrupos', async (req, res)
 })
 
 
-//  curl -X POST http://localhost:6969/coordinador/0,xd/crearGrupos   -H "Content-Type: application/json"   -d '{"nombreGrupo":"S1","campers":[1,2,3,4,5,6,7,8],"idHorario":1,"idTrainer":1,"idRuta":1}'
+//  curl -X POST http://localhost:6969/coordinador/0/xd/crearGrupos   -H "Content-Type: application/json"   -d '{"nombreGrupo":"S1","campers":[1,2,3,4,5,6,7,8],"idHorario":1,"idTrainer":1,"idRuta":1}'
 
 
 // ############################################################################################################################################################################################################################
@@ -487,7 +500,7 @@ app.get('/coordinador/:idCoordinador/:contrasena/asignarCamperGrupo', async (req
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################
 // endpoint para obtener la informacion de un camper por id, autenticando la contraseña
-app.get('/campers/:idCamper,:contrasena/verMiInfo', async (req, res) => {
+app.get('/campers/:idCamper/:contrasena/verMiInfo', async (req, res) => {
     async function buscarCamper() {
         try {
             let { collection } = await conectar("campers");
@@ -515,7 +528,7 @@ app.get('/campers/:idCamper,:contrasena/verMiInfo', async (req, res) => {
 }
 );
 
-// curl http://localhost:6969/campers/0,1/verMiInfo
+// curl http://localhost:6969/campers/0/1/verMiInfo
 
 app.get('/campers/:idCamper,:contrasena/academico', async (req, res) => {
     async function mirarInfoAcademica() {
@@ -590,7 +603,7 @@ app.get('/campers/:idCamper,:contrasena/academico', async (req, res) => {
 
 
 //// Trainer verInfo
-app.get('/trainers/:idTrainer,:contrasena/verMiInfo', async (req, res) => {
+app.get('/trainers/:idTrainer/:contrasena/verMiInfo', async (req, res) => {
     async function buscarTrainer() {
         try {
             let { collection } = await conectar("trainers");
@@ -618,7 +631,7 @@ app.get('/trainers/:idTrainer,:contrasena/verMiInfo', async (req, res) => {
 }
 );
 
-// curl http://localhost:6969/trainers/0,2/verMiInfo
+// curl http://localhost:6969/trainers/0/2/verMiInfo
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################
 
@@ -635,7 +648,7 @@ app.listen(PORT, () => {
 );
 // curl -X POST http://localhost:6969/crearCoordinador   -H "Content-Type: application/json"   -d '{"contrasena":"xd","nombre":"juan","apellido":"perez"}'
 
-app.get('/coordinador/:idCoordinador,:contrasena/verMiInfo', async (req, res) => {
+app.get('/coordinador/:idCoordinador/:contrasena/verMiInfo', async (req, res) => {
     async function buscarCoordinador() {
         try {
             let { collection } = await conectar("coordinador");
@@ -661,7 +674,7 @@ app.get('/coordinador/:idCoordinador,:contrasena/verMiInfo', async (req, res) =>
 );
 
 
-// curl http://localhost:6969/coordinador/0,xd/verMiInfo
+// curl http://localhost:6969/coordinador/0/xd/verMiInfo
 
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################ 
