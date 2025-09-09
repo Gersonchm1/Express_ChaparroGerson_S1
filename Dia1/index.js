@@ -628,8 +628,7 @@ app.listen(PORT, () => {
     console.log("server iniciadoo");
 }
 );
-//  curl -X POST http://localhost:6969/crearCoordinador   -H "Content-Type: application/json"   -d '{"contrasena":"xd","nombre":"juan","apellido":"perez"}'
-
+// curl -X POST http://localhost:6969/crearCoordinador   -H "Content-Type: application/json"   -d '{"contrasena":"xd","nombre":"juan","apellido":"perez"}'
 
 app.get('/coordinador/:idCoordinador,:contrasena/verMiInfo', async (req, res) => {
     async function buscarCoordinador() {
