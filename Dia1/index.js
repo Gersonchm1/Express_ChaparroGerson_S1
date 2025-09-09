@@ -10,6 +10,9 @@ dotenv.config();// Cargar las variables de entorno del archivo .env
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################
 import { MongoClient } from "mongodb"// Requerir mongodb
+import swaggerUI from 'swagger-ui-express';
+import swaggerDocumentation from './swagger.json' assert {type:'json'};
+app.use('/doc', swaggerUI,serve, swaggerUI.setup(swaggerDocumentation));
 // Llamar variables entorno
 const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
@@ -87,12 +90,13 @@ app.post('/crearCoordinador', async (req, res) => {
         }
     }
     await crearCoordinador()
+    //  curl -X POST http://localhost:6969/crearCoordinador   -H "Content-Type: application/json"   -d '{"contrasena":"xd","nombre":"Juan","apellido":"Pérez"}'
 })
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################
 
 // Endpoint asincrono para crear campers con su informacion atravez de un metodo post con la informacion del camper en archivo json
-app.post('/coordinador/:idCoordinador,:contrasena/crearEstudiante', async (req, res) => {
+app.post('/coordinador/:idCoordinador/:contrasena/crearEstudiante', async (req, res) => {
     async function crearEstudiante() {
         try {
             let { collection } = await conectar("coordinador");
@@ -128,7 +132,8 @@ app.post('/coordinador/:idCoordinador,:contrasena/crearEstudiante', async (req, 
     }
     await crearEstudiante()
 })
-//  curl -X POST http://localhost:6969/coordinador/0,xd/crearEstudiante   -H "Content-Type: application/json"   -d '{"contrasena":"1","nombre":"Juan","apellido":"Pérez","acudiente":"María Gómez","telefono":"3124567890"}'
+
+//  curl -X POST http://localhost:6969/coordinador/0/xd/crearEstudiante   -H "Content-Type: application/json"   -d '{"contrasena":"1","nombre":"Juan","apellido":"Pérez","acudiente":"María Gómez","telefono":"3124567890"}'
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################
 

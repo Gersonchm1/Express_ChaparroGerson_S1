@@ -1,0 +1,362 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API de administracion campus",
+    "descripcion": "Esta api permite gestionar campers y trainers ",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "host": "localhost:6969",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/crearColecciones": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/crearCoordinador": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idCoordinador": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/coordinador/{idCoordinador}/{contrasena}/crearEstudiante": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCoordinador",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "estado": {
+                  "example": "any"
+                },
+                "idCamper": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/coordinador/{idCoordinador,:contrasena}/crearTrainer": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCoordinador,:contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idTrainer": {
+                  "example": "any"
+                },
+                "idTrainers": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/coordinador/{idCoordinador,:contrasena}/crearHorario": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCoordinador,:contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idHorario": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/coordinador/{idCoordinador,:contrasena}/crearRuta": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCoordinador,:contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRuta": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/coordinador/{idCoordinador,:contrasena}/crearGrupos": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCoordinador,:contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idGrupo": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/coordinador/{idCoordinador}/{contrasena}/aprobarCamper": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCoordinador",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/coordinador/{idCoordinador}/{contrasena}/aprobarCamper/{idCamper}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCoordinador",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idCamper",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/coordinador/{idCoordinador}/{contrasena}/asignarCamperGrupo": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCoordinador",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/campers/{idCamper,:contrasena}/verMiInfo": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCamper,:contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/campers/{idCamper,:contrasena}/academico": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCamper,:contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/trainers/{idTrainer,:contrasena}/verMiInfo": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idTrainer,:contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/coordinador/{idCoordinador,:contrasena}/verMiInfo": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCoordinador,:contrasena",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
