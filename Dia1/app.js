@@ -9,6 +9,8 @@ require('dotenv').config();
 const PORT=process.env.PORT;
 
 
+//1
+
 app.get('/',(req,res)=>{
     res.send('haloooooooooooo get general')
 }
