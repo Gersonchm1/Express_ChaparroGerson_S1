@@ -1,21 +1,12 @@
-// ############################################################################################################################################################################################################################
-// ############################################################################################################################################################################################################################
+// -------
 import express from "express" // Importar express
 const app = express(); // Definir app para usar express
 app.use(express.json());// Volver las respuestas de express en formato json
-// ############################################################################################################################################################################################################################
-// ############################################################################################################################################################################################################################
+// -------
 import dotenv from 'dotenv';// Importar dotenv
 dotenv.config();// Cargar las variables de entorno del archivo .env
-// ############################################################################################################################################################################################################################
-// ############################################################################################################################################################################################################################
-import { MongoClient } from "mongodb"// Requerir mongodb
+// --------
 
-
-
-// Llamar variables entorno
-const uri = process.env.MONGO_URI;
-const client = new MongoClient(uri);
 import swaggerUI from 'swagger-ui-express';
 import fs from 'fs';
 
@@ -23,6 +14,11 @@ const swaggerDocumentation = JSON.parse(fs.readFileSync('./swagger.json', 'utf-8
 
 app.use('/doc',swaggerUI.serve, swaggerUI.setup(swaggerDocumentation))
  
+
+// Llamar variables entorno
+const uri = process.env.MONGO_URI;
+const client = new MongoClient(uri);
+
 // Funcion para la conexion de la base de datos
 async function conectar(coleccion) {
     try {
@@ -398,102 +394,6 @@ app.get('/coordinador/:idCoordinador/:contrasena/aprobarCamper/:idCamper', async
 })
 
 // curl http://localhost:6969/coordinador/0/xd/aprobarCamper/1
-
-// ############################################################################################################################################################################################################################
-// ############################################################################################################################################################################################################################
-
-app.get('/coordinador/:idCoordinador/:contrasena/asignarCamperGrupo', async (req, res) => {
-    async function buscarCamper() {
-
-        try {
-            let { collection } = await conectar("coordinador");
-            let id = req.params.idCoordinador;
-            console.log(id);
-            let contraseña = String(req.params.contrasena)
-            console.log(contraseña);
-            let coordinador = await collection.findOne({ "idCoordinador": Number(id) })
-            if (coordinador.contrasena == contraseña) {
-                let { collection } = await conectar("campers");
-                let camper = await collection.find({ estado: "Aprobado" }).toArray();
-                res.json(camper)
-            } else {
-                res.json("id o contraseña incorrectos")
-            }
-        } catch {
-            res.send("error en aprobar camper");
-        }
-    }
-
-
-    await buscarCamper();
-});
-
-//curl http://localhost:6969/coordinador/0/xd/asignarCamperGrupo
-
-
-// ############################################################################################################################################################################################################################
-// ############################################################################################################################################################################################################################
-
-app.get('/coordinador/:idCoordinador/:contrasena/asignarCamperGrupo', async (req, res) => {
-    async function crearGrupo() {
-        try {
-            let { collection } = await conectar("coordinador");
-            let id = req.params.idCoordinador;
-            console.log(id);
-            const identificador = req.params.idCamper
-            let contraseña = String(req.params.contrasena)
-            console.log(contraseña);
-            let coordinador = await collection.findOne({ "idCoordinador": Number(id) })
-            console.log(coordinador);
-            console.log(coordinador);
-            if (coordinador.contrasena == contraseña) {
-                let { collection } = await conectar("campers")
-                console.log(await collection.findOne())
-                console.log(Number(identificador));
-                await collection.updateOne(
-                    { "idCamper": Number(identificador) },
-                    { $set: { "estado": "Aprobado" } }
-                )
-                res.json(`Camper ${identificador} aprobado`)
-            } else {
-                res.json("id o contraseña incorrectos")
-            }
-        } catch {
-            res.send("error en aprobar camper");
-        }
-    }
-    await crearGrupo()
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
