@@ -14,11 +14,11 @@ const swaggerDocumentation = JSON.parse(fs.readFileSync('./swagger.json', 'utf-8
 
 app.use('/doc',swaggerUI.serve, swaggerUI.setup(swaggerDocumentation))
  
-
+import { MongoClient } from "mongodb"// Requerir mongodb
 // Llamar variables entorno
 const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
-
+ 
 // Funcion para la conexion de la base de datos
 async function conectar(coleccion) {
     try {
@@ -33,7 +33,9 @@ async function conectar(coleccion) {
     } catch (err) {
         console.error("Error conectando a MongoDB:", err);
     }
-}
+} 
+
+
 // Funcion para crear las colecciones en mongo
 async function crearColecciones() {
     let { db } = await conectar("")
@@ -47,23 +49,19 @@ async function crearColecciones() {
 
     await db.createCollection("grupos")
 }
-// Funcion para desconectar mongo db 
-async function desconectarDb() {
-    await client.close()
-}
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################
 const PORT = process.env.PORT;// Definimos e puerto del servidor local
 // ############################################################################################################################################################################################################################
 // ############################################################################################################################################################################################################################
 // Endpoint asincrono para crear la base de datos de campus
-app.get('/crearColecciones', async (req, res) => {
+app.get('/crearColecciones', async ( res) => {
     async function llamarCrearColeccion() {
         try {
             await crearColecciones();
             res.send('colecciones creadas con exito')
         } catch {
-            res.send('error en crear colecciones')
+            res.send('error en crear colecciones') 
         }
     }
     await llamarCrearColeccion();
